@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    private final com.blinkergate.auth.AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthDto.TokenResponse> register(

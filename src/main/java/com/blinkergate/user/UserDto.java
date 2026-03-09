@@ -25,6 +25,7 @@ public class UserDto {
         private Integer lvl;
         private String role;
         private Integer currentXp;
+        private String token; // only set when username changes — frontend must replace stored token
 
         public static Response from(User user) {
             Response r = new Response();

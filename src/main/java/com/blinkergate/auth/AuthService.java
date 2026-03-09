@@ -16,7 +16,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public AuthDto.TokenResponse register(AuthDto.RegisterRequest req) {
+    public com.blinkergate.auth.AuthDto.TokenResponse register(com.blinkergate.auth.AuthDto.RegisterRequest req) {
         if (userRepository.existsByUsername(req.getUsername())) {
             throw new IllegalArgumentException("Username already taken");
         }
@@ -30,11 +30,11 @@ public class AuthService {
         user.setPasswordHash(passwordEncoder.encode(req.getPassword()));
         userRepository.save(user);
 
-        return new AuthDto.TokenResponse(jwtUtil.generateToken(user.getUsername()),
+        return new com.blinkergate.auth.AuthDto.TokenResponse(jwtUtil.generateToken(user.getUsername()),
                 user.getUsername(), user.getLvl(), user.getRole(), user.getCurrentXp());
     }
 
-    public AuthDto.TokenResponse login(AuthDto.LoginRequest req) {
+    public com.blinkergate.auth.AuthDto.TokenResponse login(com.blinkergate.auth.AuthDto.LoginRequest req) {
         User user = userRepository.findByUsername(req.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
