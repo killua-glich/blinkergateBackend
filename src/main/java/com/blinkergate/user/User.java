@@ -24,6 +24,15 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
+    @Column(nullable = false)
+    private Integer lvl = 1;
+
+    @Column(nullable = false, length = 20)
+    private String role = "USER";
+
+    @Column(name = "current_xp", nullable = false)
+    private Integer currentXp = 0;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 }

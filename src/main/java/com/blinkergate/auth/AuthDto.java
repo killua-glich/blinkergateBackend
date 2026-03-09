@@ -34,10 +34,16 @@ public class AuthDto {
     public static class TokenResponse {
         private String token;
         private String username;
+        private Integer lvl;
+        private String role;
+        private Integer currentXp;
 
-        public TokenResponse(String token, String username) {
+        public TokenResponse(String token, String username, Integer lvl, String role, Integer currentXp) {
             this.token = token;
             this.username = username;
+            this.lvl = lvl;
+            this.role = role;
+            this.currentXp = currentXp;
         }
     }
 }

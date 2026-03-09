@@ -30,7 +30,8 @@ public class AuthService {
         user.setPasswordHash(passwordEncoder.encode(req.getPassword()));
         userRepository.save(user);
 
-        return new AuthDto.TokenResponse(jwtUtil.generateToken(user.getUsername()), user.getUsername());
+        return new AuthDto.TokenResponse(jwtUtil.generateToken(user.getUsername()),
+                user.getUsername(), user.getLvl(), user.getRole(), user.getCurrentXp());
     }
 
     public AuthDto.TokenResponse login(AuthDto.LoginRequest req) {
@@ -41,6 +42,7 @@ public class AuthService {
             throw new BadCredentialsException("Invalid password");
         }
 
-        return new AuthDto.TokenResponse(jwtUtil.generateToken(user.getUsername()), user.getUsername());
+        return new AuthDto.TokenResponse(jwtUtil.generateToken(user.getUsername()),
+                user.getUsername(), user.getLvl(), user.getRole(), user.getCurrentXp());
     }
 }

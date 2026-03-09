@@ -2,6 +2,7 @@ package com.blinkergate.quest;
 
 import com.blinkergate.user.User;
 import com.blinkergate.user.UserRepository;
+import com.blinkergate.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ public class QuestService {
 
     private final QuestRepository questRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     public List<QuestDto.Response> getQuestsForUser(String username) {
         User user = getUser(username);
@@ -43,12 +45,14 @@ public class QuestService {
         boolean currentlyCompleted = quest.isEffectivelyCompleted();
 
         if (currentlyCompleted) {
-            // Undo completion
+            // Undo completion — no XP change
             quest.setIsCompleted(false);
             quest.setLastCompleted(null);
         } else {
             quest.setIsCompleted(true);
             quest.setLastCompleted(LocalDate.now());
+            // Award XP on every blinker completion to prevent quest-spam abuse
+            userService.awardBlinkerXp(username);
         }
         return QuestDto.Response.from(questRepository.save(quest));
     }
