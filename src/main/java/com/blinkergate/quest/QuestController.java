@@ -1,5 +1,6 @@
 package com.blinkergate.quest;
 
+import com.blinkergate.user.UserDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,11 @@ public class QuestController {
             @PathVariable Long id) {
         questService.deleteQuest(userDetails.getUsername(), id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/redeemBlinker")
+    public ResponseEntity<UserDto.Response> redeemBlinker(
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(questService.redeemBlinker(userDetails.getUsername()));
     }
 }

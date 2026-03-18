@@ -1,6 +1,7 @@
 package com.blinkergate.quest;
 
 import com.blinkergate.user.User;
+import com.blinkergate.user.UserDto;
 import com.blinkergate.user.UserRepository;
 import com.blinkergate.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -51,10 +52,26 @@ public class QuestService {
         } else {
             quest.setIsCompleted(true);
             quest.setLastCompleted(LocalDate.now());
-            // Award XP on every blinker completion to prevent quest-spam abuse
-            userService.awardBlinkerXp(username);
         }
         return QuestDto.Response.from(questRepository.save(quest));
+    }
+
+    public UserDto.Response redeemBlinker(String username) {
+        User user = getUser(username);
+        List<Quest> quests = questRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
+
+        if (quests.isEmpty()) {
+            throw new IllegalStateException("No quests found");
+        }
+
+        boolean allCompleted = quests.stream().allMatch(Quest::isEffectivelyCompleted);
+
+        if (!allCompleted) {
+            throw new IllegalStateException("All quests must be completed before redeeming");
+        }
+
+        int totalXp = quests.size() * 10;
+        return userService.awardBlinkerXp(username, totalXp);
     }
 
     @Transactional

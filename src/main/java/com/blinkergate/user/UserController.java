@@ -28,12 +28,4 @@ public class UserController {
             @Valid @RequestBody UserDto.UpdateRequest request) {
         return ResponseEntity.ok(userService.updateProfile(userDetails.getUsername(), request));
     }
-
-    // POST /api/users/me/blinker-xp  — award XP for completing a blinker (quest)
-    // Call this from the frontend whenever a quest is marked complete
-    @PostMapping("/me/blinker-xp")
-    public ResponseEntity<UserDto.Response> awardBlinkerXp(
-            @AuthenticationPrincipal UserDetails userDetails) {
-        return ResponseEntity.ok(userService.awardBlinkerXp(userDetails.getUsername()));
-    }
 }

@@ -55,9 +55,9 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto.Response awardBlinkerXp(String username) {
+    public UserDto.Response awardBlinkerXp(String username, int totalXp) {
         User user = getUser(username);
-        user.setCurrentXp(user.getCurrentXp() + XP_PER_BLINKER);
+        user.setCurrentXp(user.getCurrentXp() + totalXp);
         recalculateLevel(user);
         return UserDto.Response.from(userRepository.save(user));
     }
