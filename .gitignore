@@ -5,3 +5,5 @@ target/
 *.ear
 .mvn/
 !.mvn/wrapper/maven-wrapper.jar
+.DS_Store
+.idea/
